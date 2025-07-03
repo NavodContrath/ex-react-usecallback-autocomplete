@@ -14,7 +14,7 @@ function App() {
   //state dinamici
   const [searchQuery, setSearchQuery] = useState("")
   const [product, setProduct] = useState([])
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(null)
 
   const loadProducts = useCallback(debounce((query) => {
     console.log(`api call ${query}`)
@@ -61,13 +61,13 @@ function App() {
       </header>
       <main>
         {
-          product && (
-            <div class="card">
-              <img class="card-img-top" src={`${product.image}`} alt="Title" />
-              <div class="card-body">
-                <h4 class="card-title">{product.name}</h4>
-                <h4 class="card-subtitle text-primary">{product.brand}</h4>
-                <p class="card-text text-danger">{product.price}</p>
+          product && product.id && (
+            <div className="card">
+              <img className="card-img-top" src={`${product.image}`} alt="Title" />
+              <div className="card-body">
+                <h4 className="card-title">{product.name}</h4>
+                <h4 className="card-subtitle text-primary">{product.brand}</h4>
+                <p className="card-text text-danger">{product.price}</p>
               </div>
             </div>
 
