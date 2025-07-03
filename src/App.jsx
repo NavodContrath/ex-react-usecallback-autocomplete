@@ -1,17 +1,35 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+//debouncer fuori dal componente
+function debounce(callback, delay) {
+  let timer
+  return (query) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      callback(query);
+    }, delay)
+  }
+}
+
 function App() {
+  //state dinamici
   const [searchQuery, setSearchQuery] = useState("")
   const [products, setProducts] = useState([])
 
+  const loadProducts = useCallback(debounce((query) => {
+    console.log(`api call ${query}`)
+    fetch(`http://localhost:3333/products?search=${query}`)
+      .then(res => res.json())
+      .then(data => setProducts(data))
+  }, 500), [])
+
   useEffect(() => {
-    async function loadProducts(query) {
-      const res = await fetch(`http://localhost:3333/products?search=${query}`)
-      const data = await res.json()
-      setProducts(data)
-    }
     loadProducts(searchQuery)
   }, [searchQuery])
-  console.log(products)
+
+  //controllo se products viene popolato dopo la API call
+  useEffect(() => {
+    console.log(products)
+  }, [products])
 
   return (
     <>
