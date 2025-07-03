@@ -36,6 +36,7 @@ function App() {
     const res = await fetch(`http://localhost:3333/products/${id}`)
     const data = await res.json()
     setProduct(data)
+    setSearchQuery("")
   }
 
   useEffect(() => {
